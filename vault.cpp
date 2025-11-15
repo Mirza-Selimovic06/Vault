@@ -1,12 +1,17 @@
+#include <fstream>
 #include <iostream>
+#include <limits>
 #include <string>
 #include <vector>
-#include <fstream>
-#include <limits>
 #include "screens.h"
+#include "user.h"
 using namespace std;
 
 int main() {
+    //email and password variables
+    string email, password;
+
+    user currentUser;
     //start and choice variable
     int choice;
     char start;
@@ -32,21 +37,30 @@ int main() {
 
         if(!auth){
             cout << "Please sign up to continue.\n";
+            //Set user email
             cout << "----------------------------\n";   
-            cout << "Enter username: ";
+            cout << "Enter email: ";
+            cin >> email;
+            currentUser.setEmail(email);
+            //Ser user password
             cout << "--------------------\n";
             cout << "Enter password: ";
+            cin >> password;
+            currentUser.setPassword(password);
             cout << "--------------------\n";
-            //TODO: account function 
+            //TODO: account add function
         }
         else {
             cout << "Welcome back, user!\n";
             cout << "-------------------\n";
             cout << "Please sign in to continue.\n";
             cout << "--------------------\n";
-            cout << "Enter username: ";
+            // get email and password
+            cout << "Enter email: ";
+            cin >> email;
             cout << "--------------------\n";
             cout << "Enter password: ";
+            cin >> password;
             cout << "--------------------\n";
             //TODO: authentication function 
         }
