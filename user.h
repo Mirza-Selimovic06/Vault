@@ -1,14 +1,16 @@
+#pragma once
 #include <iostream>
 #include <string>
-#include <vector>
 using namespace std;
+
 class user {
     public:
-        // user default constructor
+        //default constructor
         user() {
             email = "";
             password = "";
         }
+        
         //user constructor
         user(string &email, string &password) {
             this->email = email;
@@ -35,6 +37,7 @@ class user {
         }
 
     private:
-        std::string email;
-        std::string password;
+        string email;
+        string password;
 };
+

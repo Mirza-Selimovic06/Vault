@@ -5,13 +5,16 @@
 #include <vector>
 #include "screens.h"
 #include "user.h"
+#include "userRepository.h"
 using namespace std;
 
 int main() {
     //email and password variables
     string email, password;
 
-    user currentUser;
+    //set up defautl constructor
+    user *currentUser = new user();
+    
     //start and choice variable
     int choice;
     char start;
@@ -41,14 +44,15 @@ int main() {
             cout << "----------------------------\n";   
             cout << "Enter email: ";
             cin >> email;
-            currentUser.setEmail(email);
-            //Ser user password
+            currentUser->setEmail(email);
+            //Set user password
             cout << "--------------------\n";
             cout << "Enter password: ";
             cin >> password;
-            currentUser.setPassword(password);
+            currentUser->setPassword(password);
             cout << "--------------------\n";
             //TODO: account add function
+            addUserToDB(*currentUser);
         }
         else {
             cout << "Welcome back, user!\n";
@@ -58,13 +62,27 @@ int main() {
             // get email and password
             cout << "Enter email: ";
             cin >> email;
+            currentUser->setEmail(email);
             cout << "--------------------\n";
             cout << "Enter password: ";
             cin >> password;
+            currentUser->setPassword(password);
             cout << "--------------------\n";
-            //TODO: authentication function 
+
+            //check if the user is in the vault database
+            bool userIn = checkUserInDB(currentUser);
+            if(!userIn){
+                cout << "Authentication failed. Please check your email and password.\n";
+                break;
+            }
+            else if(userIn){
+                cout << "Authentication successful. Access granted to the vault.\n";
+                cout << "--------------------\n";
+                cout << "Accessing vault...\n";
+
+            }
         }
-        //if authentication is successful 
+        
         options_screen();
         cin >> choice;
 

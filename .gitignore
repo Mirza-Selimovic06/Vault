@@ -1,1 +1,6 @@
 vault.db
+sqlite3.h
+sqlite3.c
+/third_party
+userRepository.h
+
