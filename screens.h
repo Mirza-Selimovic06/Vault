@@ -14,11 +14,11 @@ void welcome_screen(void) {
 
 //options screen
 void options_screen(void) {
-    cout << "1 add passwords\n";  
-    cout << "2 view passwords\n"; 
-    cout << "3 edit passwords\n";
-    cout << "4 delete passwords\n";
-    cout << "5 delete account\n"; 
+    cout << "1 - Add password\n";  
+    cout << "2 - View passwords\n"; 
+    cout << "3 - Edit passwords\n";
+    cout << "4 - Delete password\n";
+    cout << "5 - Delete account\n"; 
     cout << "0 - Exit\n";
     cout << "Enter your choice: ";
 }

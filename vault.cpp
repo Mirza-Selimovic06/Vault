@@ -3,6 +3,7 @@
 #include <limits>
 #include <string>
 #include <vector>
+#include "Passwords.h"
 #include "screens.h"
 #include "user.h"
 #include "userRepository.h"
@@ -11,10 +12,11 @@ using namespace std;
 int main() {
     //email and password variables
     string email, password;
-
-    //set up defautl constructor
+    string aName, aUserName, aEmail, aPassword;
+    //set up defautl constructors
     user *currentUser = new user();
     
+    app *App = new app();
     //start and choice variable
     int choice;
     char start;
@@ -59,11 +61,14 @@ int main() {
             cout << "-------------------\n";
             cout << "Please sign in to continue.\n";
             cout << "--------------------\n";
+
             // get email and password
             cout << "Enter email: ";
             cin >> email;
             currentUser->setEmail(email);
             cout << "--------------------\n";
+
+
             cout << "Enter password: ";
             cin >> password;
             currentUser->setPassword(password);
@@ -79,12 +84,49 @@ int main() {
                 cout << "Authentication successful. Access granted to the vault.\n";
                 cout << "--------------------\n";
                 cout << "Accessing vault...\n";
-
             }
         }
         
         options_screen();
         cin >> choice;
+
+        if (choice == 1) {
+            //prompt user for app name, username, email, and password
+            cout << "--------------------\n";
+            cout << "Please enter App Name: ";
+            cin >> aName;
+            App->setAppName(aName);
+            cout << "--------------------\n";
+            
+            cout << "Please enter the Username you use for the app: ";
+            cin >> aUserName;
+            App->setUserName(aUserName);
+            cout << "--------------------\n";
+
+            cout << "Please enter the email you use for the app: ";
+            cin >> aEmail;
+            App->setEmail(aEmail);
+            cout << "--------------------\n";
+
+            cout << "Please enter the password you use for the app: ";
+            cin >> aPassword;
+            App->setPassword(aPassword);
+            cout << "--------------------\n";
+
+            addApp(*App);
+        }
+        else if (choice == 2) { 
+
+        }
+        else if (choice == 3) {
+
+        }
+        else if (choice == 4) {
+
+        }
+        else if (choice == 5) {
+
+        }
 
     } while(choice != 0);
 }
