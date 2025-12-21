@@ -30,7 +30,8 @@ The project emphasizes cryptographic practice, secure programming, and low level
 - Deleting account
 
 ## Build and run
-> g++ vault.cpp -o vault -l sqlite3 $(pkg-config --cflags --libs botan-2)
+> g++ vault.cpp -o vault -lsqlite3 $(pkg-config --cflags --libs botan-2)
+
 > ./vault
 
 ## Learning Objectives
