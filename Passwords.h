@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <string>
 using namespace std;
@@ -9,6 +10,12 @@ class app {
         string email;
         string userName;
     public:
+        app() { 
+            appName = "";
+            password = "";
+            email = "";
+            userName = "";
+        }
         //setters
         void setAppName(string name) { this->appName = name; }
         void setPassword(string pass) { this->password = pass; }
@@ -21,4 +28,3 @@ class app {
         string getEmail() { return this->email;}
         string getUserName() { return this->userName;}
 };
-

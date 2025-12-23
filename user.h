@@ -40,4 +40,3 @@ class user {
         string email;
         string password;
 };
-

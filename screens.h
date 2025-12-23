@@ -28,6 +28,3 @@ void exit_screen(void) {
     cout << "Exiting the Vault\n";
     cout << "--------------------\n";
 }
-
-
-

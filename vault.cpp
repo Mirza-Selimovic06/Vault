@@ -22,11 +22,12 @@ int main() {
     char start;
     char registered;
     bool auth = false;
+    bool userIn;
     //welcome screen
     welcome_screen(); 
     cin >> start; 
-    
-    do {
+
+    if(tolower(start) == 'y')
         cout << "Are you a registered user? y/n: ";
         cin >> registered;
 
@@ -37,7 +38,7 @@ int main() {
             auth = false;
         } else {
             cout << "Invalid input. Please enter 'y' or 'n'.\n";
-            continue;
+            cin >> start;
         }
 
         if(!auth){
@@ -75,10 +76,10 @@ int main() {
             cout << "--------------------\n";
 
             //check if the user is in the vault database
-            bool userIn = checkUserInDB(currentUser);
+            userIn = checkUserInDB(currentUser);
             if(!userIn){
                 cout << "Authentication failed. Please check your email and password.\n";
-                break;
+
             }
             else if(userIn){
                 cout << "Authentication successful. Access granted to the vault.\n";
@@ -87,6 +88,8 @@ int main() {
             }
         }
         
+    
+    do {
         options_screen();
         cin >> choice;
 
@@ -113,20 +116,41 @@ int main() {
             App->setPassword(aPassword);
             cout << "--------------------\n";
 
-            addApp(*App);
+            addApp(*App, currentUser);
         }
         else if (choice == 2) { 
-
+            ViewPasswords(currentUser);
         }
         else if (choice == 3) {
-
+            EditPassword();
+            ViewPasswords(currentUser);
         }
         else if (choice == 4) {
-
+            RemovePassword();
         }
         else if (choice == 5) {
-
+            //TODO: Delete account
+            char deleteChoice;
+            cout << "Are you sure you want to delete you account?[ENTER Y OR N] "; cin >> deleteChoice;
+            cout << endl;
+            cout << "Please enter vault email: "; cin >> email;
+            cout << endl;
+            cout << "Enter vault password: "; cin >> password;
+            if(tolower(deleteChoice) == 'y' && checkPasswordForDelete(email, password))
+            {
+                deleteUser(currentUser);
+                choice == 0;
+            }
+            else if(tolower(deleteChoice) != 'y') {
+                cout << "Account not deleted\n";
+                continue;
+            }
+            else if(!checkPasswordForDelete(email, password)) {
+                cout << "Email and password did not match try again!\n";
+                continue;
+            }
         }
-
-    } while(choice != 0);
+    } while(choice != 0 && userIn);
+    delete currentUser;
+    delete App;
 }
