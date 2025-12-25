@@ -6,6 +6,7 @@
 #include <botan/system_rng.h>
 #include <vector>
 #include "user.h"
+#include "screens.h"
 #include "Passwords.h"
 using namespace std;
 using namespace Botan;
@@ -308,6 +309,7 @@ prompts the user for the app name they want to update then asks to update the pa
 void EditPassword() {
     sqlite3 *db = nullptr;
     sqlite3_stmt *stmt = nullptr;
+    string sql;
     int rc;
 
     rc = sqlite3_open("vault.db", &db);
@@ -321,42 +323,119 @@ void EditPassword() {
     string appName;
     string password;
     string confirm;
-    cout << "Which apps password do you want to edit?\n";
+    string email;
+    string username;
+    int options;
+
+    cout << "Which apps do you want to edit?\n";
     cout << "Enter App Name: "; cin >> appName;
+    editOptions();
+    cin >> options;
 
-    cout << "Please enter your new password: "; cin >> password;
-    cout << "Confirm password: "; cin >> confirm;
+    switch (options) {
+        case 1:
+            cout << "Please enter your new email: "; 
+            cin >> email;
+            
+            sql = "UPDATE Website SET email = ? WHERE url = ?";
+            rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);
 
-    if(strcmp(password.c_str(), confirm.c_str()) != 0) {
-        cerr << "Error: Password confirmation failed(try again)\n";
-        return;
+             if (rc != SQLITE_OK) {
+                cerr << "Prepare statement error: " << sqlite3_errmsg(db) << endl;
+                sqlite3_close(db);
+                return;
+            }
+
+            rc = sqlite3_bind_text(stmt, 1, email.c_str(), -1, SQLITE_TRANSIENT);
+            rc = sqlite3_bind_text(stmt, 2, appName.c_str(), -1, SQLITE_TRANSIENT);
+            
+            if (rc != SQLITE_OK) {
+                cerr << "Bind failed" << sqlite3_errmsg(db);
+                sqlite3_close(db);
+                return;
+            }
+
+            rc = sqlite3_step(stmt);
+
+            //error handling for insertion
+            if (rc != SQLITE_DONE) {
+                cerr << "SQL error: " << sqlite3_errmsg(db) << endl;
+            } else {
+                cout << appName << " App added successfully" << endl;
+            }
+            break;
+        case 2:
+            cout << "Please enter your new username: "; 
+            cin >> username;
+            
+            sql = "UPDATE Website SET username = ? WHERE url = ?";
+            rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);
+
+             if (rc != SQLITE_OK) {
+                cerr << "Prepare statement error: " << sqlite3_errmsg(db) << endl;
+                sqlite3_close(db);
+                return;
+            }
+
+            rc = sqlite3_bind_text(stmt, 1, username.c_str(), -1, SQLITE_TRANSIENT);
+            rc = sqlite3_bind_text(stmt, 2, appName.c_str(), -1, SQLITE_TRANSIENT);
+            
+            if (rc != SQLITE_OK) {
+                cerr << "Bind failed" << sqlite3_errmsg(db);
+                sqlite3_close(db);
+                return;
+            }
+
+            rc = sqlite3_step(stmt);
+
+            //error handling for insertion
+            if (rc != SQLITE_DONE) {
+                cerr << "SQL error: " << sqlite3_errmsg(db) << endl;
+            } else {
+                cout << appName << " App added successfully" << endl;
+            }
+            break;
+        case 3:
+            cout << "Please enter your new password: "; 
+            cin >> password;
+            cout << "Confirm password: "; 
+            cin >> confirm;
+
+            if(strcmp(password.c_str(), confirm.c_str()) != 0) {
+                cerr << "Error: Password confirmation failed(try again)\n";
+                return;
+            }
+            sql = "UPDATE Website SET password = ? WHERE url = ?";
+            rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);
+
+            if (rc != SQLITE_OK) {
+                cerr << "Prepare statement error: " << sqlite3_errmsg(db) << endl;
+                sqlite3_close(db);
+                return;
+            }
+
+            rc = sqlite3_bind_text(stmt, 1, password.c_str(), -1, SQLITE_TRANSIENT);
+            rc = sqlite3_bind_text(stmt, 2, appName.c_str(), -1, SQLITE_TRANSIENT);
+            
+            if (rc != SQLITE_OK) {
+                cerr << "Bind failed" << sqlite3_errmsg(db);
+                sqlite3_close(db);
+                return;
+            }
+
+            rc = sqlite3_step(stmt);
+
+            //error handling for insertion
+            if (rc != SQLITE_DONE) {
+                cerr << "SQL error: " << sqlite3_errmsg(db) << endl;
+            } else {
+                cout << appName << " App added successfully" << endl;
+            }
+            break;
+        case 0:
+            return;
     }
-    string sql = "UPDATE Website SET password = ? WHERE url = ?";
-    rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);
-
-    if (rc != SQLITE_OK) {
-        cerr << "Prepare statement error: " << sqlite3_errmsg(db) << endl;
-        sqlite3_close(db);
-        return;
-    }
-
-    rc = sqlite3_bind_text(stmt, 1, password.c_str(), -1, SQLITE_TRANSIENT);
-    rc = sqlite3_bind_text(stmt, 2, appName.c_str(), -1, SQLITE_TRANSIENT);
     
-    if (rc != SQLITE_OK) {
-        cerr << "Bind failed" << sqlite3_errmsg(db);
-        sqlite3_close(db);
-        return;
-    }
-
-    rc = sqlite3_step(stmt);
-
-    //error handling for insertion
-    if (rc != SQLITE_DONE) {
-        cerr << "SQL error: " << sqlite3_errmsg(db) << endl;
-    } else {
-        cout << appName << " App added successfully" << endl;
-    }
 
     //closes the database
     sqlite3_finalize(stmt);

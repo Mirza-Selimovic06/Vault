@@ -28,3 +28,11 @@ void exit_screen(void) {
     cout << "Exiting the Vault\n";
     cout << "--------------------\n";
 }
+
+void editOptions(void) {
+    cout << "1 - Edit email\n";
+    cout << "2 - Edit username\n";
+    cout << "3 - Edit password\n";
+    cout << "0 - Return\n";
+    cout << "Enter you choice: ";
+}
