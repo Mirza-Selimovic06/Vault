@@ -15,12 +15,12 @@ The project emphasizes cryptographic practice, secure programming, and low level
 - Language: C++
 - Database: SQLite3
 - Cryptography: Botan
-- Platform Linux (WSL Compatiable)
+- Platform Linux (WSL Compatible)
 - Build: g++
 
 ## Core features
 - User registration and log-in
-- Secure password hashing and varification
+- Secure password hashing and verification
 - Error handling and defense checks
 
 ## In Progress/Planned 
