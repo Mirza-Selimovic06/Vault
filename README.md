@@ -1,4 +1,7 @@
 # Overview
+#### Video Demo: [CS50 Final Video](https://youtu.be/K5dbqZ02LZc)
+
+#### Description
 Vault.cpp is a security focused, cli password manager written in C++, designed to explore secure credential storage, authentication workflows, and database backed systems programming.
 
 The project emphasizes cryptographic practice, secure programming, and low level systems control.
